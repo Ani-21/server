@@ -1,4 +1,6 @@
-const whiteList = [ALLOWED_URL];
+require("dotenv").config();
+
+const whiteList = [process.env.ALLOWED_URL];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.indexOf(origin) !== -1 || !origin) {

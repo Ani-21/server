@@ -8,6 +8,7 @@ const usersDB = {
 const fsPromises = require("fs").promises;
 const bcrypt = require("bcrypt");
 const path = require("path");
+require("dotenv").config();
 
 const handleNewUser = async (req, res) => {
   const { user, pwd } = req.body;
@@ -23,6 +24,7 @@ const handleNewUser = async (req, res) => {
 
     const newUser = {
       username: user,
+      roles: { User: 2001 },
       password: hashedPwd,
     };
 
