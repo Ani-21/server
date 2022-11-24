@@ -19,10 +19,10 @@ const handleLogin = async (req, res) => {
   // create jwt token
   if (match) {
     // Create JWTs
-    const roles = Object.values(foundUser.roles);
+    const roles = Object.values(foundUser.roles).filter(Boolean);
 
     const accessToken = jwt.sign(
-      { UserInfo: { username: foundUser.username, roles: roles } },
+      { UserInfo: { username: foundUser.username, roles } },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "120s" }
     );
@@ -41,9 +41,12 @@ const handleLogin = async (req, res) => {
     // accessToken needs to be stored in cookies
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({
+      roles,
       accessToken,
     });
   } else {
