@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const whiteList = [process.env.ALLOWED_URL];
+const whiteList = ["http://localhost:5173"];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.indexOf(origin) !== -1 || !origin) {

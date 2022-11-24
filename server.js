@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
-require("dotenv").config();
 const { logger } = require("./middleware/logEvent");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require("cors");
@@ -9,6 +9,11 @@ const cookieParser = require("cookie-parser");
 const verifyJWT = require("./middleware/verifyJWT");
 const PORT = process.env.PORT;
 const app = express();
+const mongoose = require("mongoose");
+const connectDB = require("./config/dbConn");
+
+// Connect to MongoDB
+connectDB();
 
 // custom middleware logger
 app.use(logger);
@@ -31,6 +36,12 @@ app.use("/logout", require("./routes/logout"));
 
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
+app.get("/users", (req, res) => {
+  res.json({
+    username: "ani",
+    age: 22,
+  });
+});
 
 // all
 app.all("*", (req, res) => {
@@ -48,4 +59,9 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log("Server running on port:", PORT));
+// we don't want to listen for requests if connection to MongoDB fails
+// once - listen for an event one time
+mongoose.connection.once("open", () => {
+  console.log("MongoDB is running");
+  app.listen(PORT, () => console.log("Server running on port:", PORT));
+});
