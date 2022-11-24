@@ -1,15 +1,15 @@
 require("dotenv").config();
 
-const whiteList = ["http://localhost:5173"];
+const whiteList = ["http://localhost:5173", "http://localhost:8000"];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by cors"));
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  optionsSuccesstatus: 200,
+  optionsSuccessStatus: 200,
 };
 
 module.exports = corsOptions;

@@ -36,12 +36,7 @@ app.use("/logout", require("./routes/logout"));
 
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
-app.get("/users", (req, res) => {
-  res.json({
-    username: "ani",
-    age: 22,
-  });
-});
+app.use("/users", require("./routes/api/users"));
 
 // all
 app.all("*", (req, res) => {
