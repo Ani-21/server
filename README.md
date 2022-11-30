@@ -1,5 +1,5 @@
 # server node.js
-Pet project User Aothorization
+Pet project User Authorization
 -Middleware
 -Controllers
 -JWT protected routes
